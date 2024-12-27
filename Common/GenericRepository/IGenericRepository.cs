@@ -7,6 +7,7 @@
         Task DeleteAsync(T entity);
         Task<List<T>> GetAllAsync();
         Task<T> GetByIdAsync(object id);
+        Task<T> GetByNameAsync(string name);
         Task<int> commitAsync();
         void Rollback();
 

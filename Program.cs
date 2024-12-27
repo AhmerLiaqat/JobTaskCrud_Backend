@@ -20,7 +20,24 @@ ServiceRegistrar.registerServices(builder.Services);
 //AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")  // Allow frontend URL (Angular app)
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
+// Add services to the container
+builder.Services.AddControllers();
+
 var app = builder.Build();
+
+// Use CORS
+app.UseCors("AllowSpecificOrigin");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

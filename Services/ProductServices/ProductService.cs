@@ -33,6 +33,10 @@ namespace JobTaskCrud.Repositories.ProductRepository
                     name = request.name,
                     price = request.price,
                 };
+                var prod = await _repository.GetByNameAsync(product.name);
+
+                if (prod != null)
+                    throw new Exception("Name Already Exist");
                 var result = await _repository.AddAsync(product);
                 await _repository.commitAsync();
                 return  ApiResponse<Product>.Success(result,message:"Product Added SuccessFully");
@@ -91,6 +95,7 @@ namespace JobTaskCrud.Repositories.ProductRepository
                     throw new Exception("Product Id Not Found");
                 }
                 await _repository.DeleteAsync(product);
+                await _repository.commitAsync();
                 return ApiResponse<int>.Success(id, message: "Product Deleted SuccessFully");
             }
             catch (Exception ex)

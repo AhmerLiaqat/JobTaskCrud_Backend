@@ -46,6 +46,10 @@ namespace JobTaskCrud.Common.GenericRepository
         {
             return await context.Set<T>().FindAsync(id);
         }
+        public async Task<T> GetByNameAsync(string name) 
+        {
+            return await context.Set<T>().FirstOrDefaultAsync(entity => EF.Property<string>(entity, "name") == name);
+        }
         public void Rollback()
         {
             context.Dispose();
